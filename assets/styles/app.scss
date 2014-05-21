@@ -1,0 +1,29 @@
+@import "bourbon/bourbon";
+@import "../components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins";
+@import "colors";
+
+html {
+    body {
+        #lightness-gradient {
+            position: relative;
+            margin: 40px auto;
+            width: 100%;
+            height: 100px;
+            @include clearfix();
+            .gradient-step {
+                float: left;
+                width: (100% / 16);
+                height: 100%;
+            }
+            #lightness-level-indicator {
+                position: relative;
+                @include transform(translate3d(0, -25px, 0));
+                @include square(25px);
+                border: 1px solid $madison;
+                @include border-top-radius(20px);
+                @include border-bottom-radius(75px);
+                z-index: 999;
+            }
+        }
+    }
+}

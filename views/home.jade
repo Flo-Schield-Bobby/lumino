@@ -1,0 +1,62 @@
+doctype
+html
+    head
+        meta(charset='utf-8')
+        meta(name='author', content='Florent Schildknecht')
+        meta(name='robot', content='noindex,nofollow')
+        meta(name='viewport', content='width=device-width,initial-scale=1.0')
+        title Home
+        link(rel='stylesheet', href='/styles/bootstrap.min.css')
+        link(rel='stylesheet', href='/styles/app.min.css')
+    body
+        section.container
+            header.jumbotron
+                h1 Lumino
+                p.lead A smart light preventing your eyes
+            .well
+                h4 Current Value
+                span#lightness
+                #lightness-gradient
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    .gradient-step
+                    #lightness-level-indicator
+        script(src='/components/jquery/dist/jquery.min.js')
+        script(src='/components/socket.io-client/dist/socket.io.min.js')
+        script(src='/scripts/vendor/colormix-2.0.0.min.js')
+        script.
+            var socket = io.connect('http://localhost:3000');
+            var lightness = {
+                'min': 0,
+                'max': 1024
+            }
+            var length = $('#lightness-gradient').width()
+            socket.on('data', function (data) {
+                var leftOffset = data * length / lightness.max;
+                $('#lightness-level-indicator').css({
+                    'transform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
+                    'webkitTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
+                    'mozTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)'
+                });
+                $('#lightness').text(data + ' lux');
+            });
+            ColorMix.setGradient([
+                { reference: lightness.min, color: { red: 0, green: 0, blue: 0 } },
+                { reference: lightness.max, color: { red: 255, green: 255, blue: 255 } }
+            ]);
+            $('.gradient-step', '#lightness-gradient').each(function (i, gradientStep) {
+                ColorMix.blend(i * 64).useAsBackground($(this));
+            });
