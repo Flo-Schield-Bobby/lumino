@@ -29,3 +29,4 @@ node_modules
 
 # Gulp
 .sass-cache
+assets/styles/bourbon
