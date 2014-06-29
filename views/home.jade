@@ -18,7 +18,6 @@ html
                 h2#baseline Just as lighty as you need
                 p#lightness Your ambiant light is actually :&nbsp;
                         span#state
-
             footer
                 #arrow
         script(src='/components/jquery/dist/jquery.min.js')
@@ -40,7 +39,6 @@ html
             var length = $('#lightness-gradient').width()
             socket.on('data', function (data) {
                 var color = ColorMix.blend(data).useAsBackground($('body'));
-                console.log(color);
                 var state = 'maximum';
 
                 for (var step in lightness) {
