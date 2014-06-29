@@ -1,0 +1,34 @@
+doctype
+html
+    head
+        meta(charset='utf-8')
+        meta(name='author', content='Florent Schildknecht')
+        meta(name='robot', content='noindex,nofollow')
+        meta(name='viewport', content='width=device-width,initial-scale=1.0')
+        title Lumino
+        link(rel='stylesheet', href='/styles/bootstrap.min.css')
+        link(rel='stylesheet', href='/styles/vendor/timeline.min.css')
+        link(rel='stylesheet', href='/styles/app.min.css')
+    body
+        section.container
+            header.jumbotron
+                h1 Lumino
+                p.lead A smart light preventing your eyes
+            .well
+                #timeline
+        script(src='/components/jquery/dist/jquery.min.js')
+        script(src='/scripts/vendor/timeline.min.js')
+        script.
+            var timeline = new vis.Timeline(document.getElementById('timeline'), [], {
+              'orientation': 'top',
+              'editable': true,
+              'editable.add': true,
+              'editable.remove': true,
+              'editable.updateTime': true,
+              'autoResize': true,
+              'type': 'rangeoverflow',
+              'showCurrentTime': true,
+              'height': '360px',
+              'zoomMin': 10000,
+              'zoomMax': 604800000
+            });

@@ -1,0 +1,75 @@
+@import "bourbon/bourbon";
+@import "../components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins";
+@import "colors";
+@import url("http://fonts.googleapis.com/css?family=Lato:300,400,700,400italic");
+
+$darkness: rgb(46, 46, 46);
+
+$title-color: rgb(255, 255, 255);
+$title-shadow: rgba(74, 74, 74, 0.9);
+
+$pulse-border: $darkness;
+
+$text-main-color: rgb(191, 191, 191);
+
+$hr-color: $text-main-color;
+
+html {
+    @include square(100%);
+    body {
+        @include square(100%);
+        @include transition(background-color 0.03s linear);
+        #app-container {
+            position: relative;
+            min-height: 100%;
+            #home {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                margin: -200px auto 0 auto;
+                font-family: "Lato";
+                text-align: center;
+                #title {
+                    position: relative;
+                    font-size: 120px;
+                    color: $title-color;
+                    text-shadow: -1px 3px 3px $title-shadow;
+                    #pulse {
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        top: -5px;
+                        left: 615px;
+                        background: $title-color;
+                        border: 1px solid $pulse-border;
+                        box-shadow: 0 0 15px $title-color;
+                    }
+                }
+                hr {
+                    border-color: $hr-color;
+                }
+                #baseline,
+                #lightness {
+                    color: $text-main-color;
+                }
+                #baseline {
+                    font-weight: 300;
+                    text-transform: uppercase;
+                }
+                #lightness {
+                    margin: 25px auto 0 auto;
+                }
+            }
+            #arrow {
+                position: absolute;
+                left: 50%;
+                bottom: 50px;
+                width: 180px;
+                height: 92px;
+                margin: 0 0 0 -90px;
+                background: url('../images/arrow.png') center center no-repeat;
+                background-size: cover;
+            }
+        }
+    }
+}

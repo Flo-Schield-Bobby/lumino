@@ -22,3 +22,9 @@ app.use express.static 'assets'
 
 app.get '/', (request, response) ->
     response.render 'home'
+
+app.get '/test', (request, response) ->
+    response.render 'test'
+
+app.get '/timeline', (request, response) ->
+    response.render 'timeline'

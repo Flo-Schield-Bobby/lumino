@@ -1,0 +1,68 @@
+doctype
+html
+    head
+        meta(charset='utf-8')
+        meta(name='author', content='Florent Schildknecht')
+        meta(name='robot', content='noindex,nofollow')
+        meta(name='viewport', content='width=device-width,initial-scale=1.0')
+        title Lumino
+        link(rel='stylesheet', href='/styles/bootstrap.min.css')
+        link(rel='stylesheet', href='/styles/app.min.css')
+    body
+        section.container
+            header.jumbotron
+                h1 Lumino
+                p.lead A smart light preventing your eyes
+            .well
+                h4 Current Value
+                span#lightness
+                #lightness-gradient
+                    .gradient-step#minimum
+                    .gradient-step#unsufficient
+                    .gradient-step#minimal
+                    .gradient-step#low
+                    .gradient-step#some
+                    .gradient-step#moderate
+                    .gradient-step#good
+                    .gradient-step#superior
+                    #lightness-level-indicator
+        script(src='/components/jquery/dist/jquery.min.js')
+        script(src='/components/socket.io-client/dist/socket.io.min.js')
+        script(src='/scripts/vendor/colormix-2.0.0.min.js')
+        script.
+            var socket = io.connect('http://localhost:3000');
+            var lightness = {
+                'minimum'       : 0,
+                'unsufficient'  : 50,
+                'minimal'       : 125,
+                'low'           : 200,
+                'some'          : 300,
+                'moderate'      : 500,
+                'good'          : 750,
+                'superior'      : 1000,
+                'maximum'       : 1024
+            }
+            var length = $('#lightness-gradient').width()
+            socket.on('data', function (data) {
+                var leftOffset = data * length / lightness.maximum;
+                $('#lightness-level-indicator').css({
+                    'transform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
+                    'webkitTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
+                    'mozTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)'
+                });
+                $('#lightness').text(data + ' lux');
+            });
+            ColorMix.setGradient([
+                { reference: lightness.minimum, color: { red: 0, green: 0, blue: 0 } },
+                { reference: lightness.unsufficient, color: { red: 10, green: 10, blue: 10 } },
+                { reference: lightness.minimal, color: { red: 30, green: 30, blue: 30 } },
+                { reference: lightness.low, color: { red: 76, green: 76, blue: 76 } },
+                { reference: lightness.some, color: { red: 120, green: 120, blue: 120 } },
+                { reference: lightness.moderate, color: { red: 181, green: 181, blue: 181 } },
+                { reference: lightness.good, color: { red: 242, green: 242, blue: 242 } },
+                { reference: lightness.superior, color: { red: 247, green: 247, blue: 247 } },
+                { reference: lightness.maximum, color: { red: 255, green: 255, blue: 255 } }
+            ]);
+            $('.gradient-step', '#lightness-gradient').each(function (i, gradientStep) {
+                ColorMix.blend(i * 114).useAsBackground($(this));
+            });

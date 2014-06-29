@@ -33,3 +33,11 @@ app.use(express["static"]('assets'));
 app.get('/', function(request, response) {
   return response.render('home');
 });
+
+app.get('/test', function(request, response) {
+  return response.render('test');
+});
+
+app.get('/timeline', function(request, response) {
+  return response.render('timeline');
+});

@@ -12,8 +12,31 @@ html {
             @include clearfix();
             .gradient-step {
                 float: left;
-                width: (100% / 16);
                 height: 100%;
+                &#minimum {
+                    width: ((50 - 0) * 100% / 1024);
+                }
+                &#unsufficient {
+                    width: ((125 - 50) * 100% / 1024);
+                }
+                &#minimal {
+                    width: ((200 - 125) * 100% / 1024);
+                }
+                &#low {
+                    width: ((300 - 200) * 100% / 1024);
+                }
+                &#some {
+                    width: ((500 - 300) * 100% / 1024);
+                }
+                &#moderate {
+                    width: ((750 - 500) * 100% / 1024);
+                }
+                &#good {
+                    width: ((1000 - 750) * 100% / 1024);
+                }
+                &#superior {
+                    width: ((1024 - 1000) * 100% / 1024);
+                }
             }
             #lightness-level-indicator {
                 position: relative;

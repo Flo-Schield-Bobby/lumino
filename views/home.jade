@@ -5,58 +5,59 @@ html
         meta(name='author', content='Florent Schildknecht')
         meta(name='robot', content='noindex,nofollow')
         meta(name='viewport', content='width=device-width,initial-scale=1.0')
-        title Home
+        title Lumino
         link(rel='stylesheet', href='/styles/bootstrap.min.css')
         link(rel='stylesheet', href='/styles/app.min.css')
+        link(rel='stylesheet', href='/styles/home.min.css')
     body
-        section.container
-            header.jumbotron
-                h1 Lumino
-                p.lead A smart light preventing your eyes
-            .well
-                h4 Current Value
-                span#lightness
-                #lightness-gradient
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    .gradient-step
-                    #lightness-level-indicator
+        section#app-container.container
+            header#home
+                h1#title LUMINO
+                    #pulse
+                hr
+                h2#baseline Just as lighty as you need
+                p#lightness Your ambiant light is actually :&nbsp;
+                        span#state
+
+            footer
+                #arrow
         script(src='/components/jquery/dist/jquery.min.js')
         script(src='/components/socket.io-client/dist/socket.io.min.js')
         script(src='/scripts/vendor/colormix-2.0.0.min.js')
         script.
             var socket = io.connect('http://localhost:3000');
             var lightness = {
-                'min': 0,
-                'max': 1024
+                'minimum'       : 0,
+                'unsufficient'  : 50,
+                'minimal'       : 125,
+                'low'           : 200,
+                'enough'        : 300,
+                'moderate'      : 500,
+                'good'          : 750,
+                'superior'      : 1000,
+                'maximum'       : 1024
             }
             var length = $('#lightness-gradient').width()
             socket.on('data', function (data) {
-                var leftOffset = data * length / lightness.max;
-                $('#lightness-level-indicator').css({
-                    'transform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
-                    'webkitTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)',
-                    'mozTransform': 'translate3d(' + leftOffset + 'px, -25px, 0)'
-                });
-                $('#lightness').text(data + ' lux');
+                var color = ColorMix.blend(data).useAsBackground($('body'));
+                console.log(color);
+                var state = 'maximum';
+
+                for (var step in lightness) {
+                    if (data < lightness[step]) {
+                        $('#state').text(step);
+                        break;
+                    }
+                }
             });
             ColorMix.setGradient([
-                { reference: lightness.min, color: { red: 0, green: 0, blue: 0 } },
-                { reference: lightness.max, color: { red: 255, green: 255, blue: 255 } }
+                { reference: lightness.minimum, color: { red: 46, green: 46, blue: 46 } },
+                { reference: lightness.unsufficient, color: { red: 51, green: 51, blue: 51 } },
+                { reference: lightness.minimal, color: { red: 61, green: 61, blue: 61 } },
+                { reference: lightness.low, color: { red: 84, green: 84, blue: 84 } },
+                { reference: lightness.enough, color: { red: 106, green: 106, blue: 106 } },
+                { reference: lightness.moderate, color: { red: 136, green: 136, blue: 136 } },
+                { reference: lightness.good, color: { red: 167, green: 167, blue: 167 } },
+                { reference: lightness.superior, color: { red: 170, green: 170, blue: 170 } },
+                { reference: lightness.maximum, color: { red: 174, green: 174, blue: 174 } }
             ]);
-            $('.gradient-step', '#lightness-gradient').each(function (i, gradientStep) {
-                ColorMix.blend(i * 64).useAsBackground($(this));
-            });

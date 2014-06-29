@@ -17,8 +17,9 @@ var gulp         = require('gulp'),
     csso         = require('gulp-csso'),
     autoprefixer = require('gulp-autoprefixer'),
     // Scripts [coffee]
-    coffee         = require('gulp-coffee'),
-    coffeelint    = require('gulp-coffeelint'),
+    coffee       = require('gulp-coffee'),
+    coffeelint   = require('gulp-coffeelint'),
+    uglify       = require('gulp-uglify'),
     __ports      = {
         server:     1338,
         livereload: 35732
@@ -63,6 +64,27 @@ gulp.task('scripts-core', function () {
         .pipe(livereload(server))
         .pipe(notify({
             message: 'Scripts [Core] task completed @ <%= options.date %>',
+            templateOptions: {
+                date: new Date()
+            }
+        }));
+});
+
+gulp.task('scripts-assets', function () {
+    return gulp.src(['assets/scripts/{,*/}*.{coffee,coffee.md}', '!assets/scripts/vendor/{,*/}.{coffee,coffee.md}'])
+        .pipe(coffee({
+            bare: true
+        }))
+        .on('error', gutil.log)
+        .pipe(coffeelint())
+        .on('error', gutil.log)
+        .pipe(coffeelint.reporter())
+        .on('error', gutil.log)
+        .pipe(size())
+        .pipe(gulp.dest('assets/scripts'))
+        .pipe(livereload(server))
+        .pipe(notify({
+            message: 'Scripts [Assets] task completed @ <%= options.date %>',
             templateOptions: {
                 date: new Date()
             }
@@ -114,6 +136,9 @@ gulp.task('watch', function () {
 
         // Watch .scss files
         gulp.watch('core/{,*/}*.{coffee,coffee.md}', ['scripts-core']);
+
+        // Watch .scss files
+        gulp.watch('assets/scripts/{,*/}*.{coffee,coffee.md}', ['scripts-assets']);
 
         // Watch .scss files
         gulp.watch('app.coffee', ['scripts-app']);
