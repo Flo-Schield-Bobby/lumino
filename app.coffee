@@ -3,7 +3,7 @@ if !process.argv[2]
 
 express             = require 'express'
 jade                = require 'jade'
-LuminoDataReader    = require './core/LuminoDataReader'
+SerialDataReader    = require './core/SerialDataReader'
 socketio            = require 'socket.io'
 app                 = express()
 
@@ -12,7 +12,7 @@ server = app.listen 3000, () ->
 
 io = socketio.listen server
 
-LDR = LuminoDataReader.get process.argv[2], io
+SDR = SerialDataReader.get process.argv[2], io
 
 app.engine 'jade', jade.__express
 

@@ -1,12 +1,12 @@
-var LuminoDataReader, SerialPort,
+var SerialDataReader, SerialPort,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 SerialPort = require('serialPort');
 
-LuminoDataReader = (function() {
+SerialDataReader = (function() {
   var DataReader, instance;
 
-  function LuminoDataReader() {}
+  function SerialDataReader() {}
 
   instance = null;
 
@@ -61,12 +61,12 @@ LuminoDataReader = (function() {
 
   })();
 
-  LuminoDataReader.get = function(port, socketIo) {
+  SerialDataReader.get = function(port, socketIo) {
     return instance != null ? instance : instance = new DataReader(port, socketIo);
   };
 
-  return LuminoDataReader;
+  return SerialDataReader;
 
 })();
 
-module.exports = LuminoDataReader;
+module.exports = SerialDataReader;

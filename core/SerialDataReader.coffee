@@ -2,7 +2,7 @@
 
 SerialPort = require 'serialPort'
 
-class LuminoDataReader
+class SerialDataReader
 
     instance = null
 
@@ -40,4 +40,4 @@ class LuminoDataReader
     @get: (port, socketIo) ->
         instance ?= new DataReader port, socketIo
 
-module.exports = LuminoDataReader
+module.exports = SerialDataReader

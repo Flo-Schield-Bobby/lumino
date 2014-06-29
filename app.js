@@ -1,4 +1,4 @@
-var LDR, LuminoDataReader, app, express, io, jade, server, socketio;
+var SDR, SerialDataReader, app, express, io, jade, server, socketio;
 
 if (!process.argv[2]) {
   throw 'No connection port provided (/dev/something)';
@@ -8,7 +8,7 @@ express = require('express');
 
 jade = require('jade');
 
-LuminoDataReader = require('./core/LuminoDataReader');
+SerialDataReader = require('./core/SerialDataReader');
 
 socketio = require('socket.io');
 
@@ -20,7 +20,7 @@ server = app.listen(3000, function() {
 
 io = socketio.listen(server);
 
-LDR = LuminoDataReader.get(process.argv[2], io);
+SDR = SerialDataReader.get(process.argv[2], io);
 
 app.engine('jade', jade.__express);
 
